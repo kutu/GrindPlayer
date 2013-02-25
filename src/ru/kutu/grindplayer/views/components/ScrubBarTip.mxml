@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:DataRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				alpha.hiddenGroup="0"
+				mouseEnabled="false"
+				mouseChildren="false"
+				implements="ru.kutu.grind.views.api.IScrubBarTip"
+				>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			import ru.kutu.grind.utils.FormatTime;
+			
+			override public function set data(value:Object):void {
+				super.data = value;
+				labelDisplay.text = FormatTime.formatTime(Number(value));
+				arrow.x = 0;
+				validateNow();
+			}
+			
+			public function get thumbnailsContainer():DisplayObjectContainer {
+				return thbCont;
+			}
+			
+			public function updatePosition(globalPoint:Point):void {
+				var pt:Point = new Point(globalPoint.x - width / 2, globalPoint.y - height);
+				
+				// Convert screen to sandboxRoot cooridnates
+				var screen:Rectangle = systemManager.getVisibleApplicationRect(null, true);
+				var sr:DisplayObject = systemManager.getSandboxRoot();
+				var topLeft:Point = sr.globalToLocal(screen.topLeft);
+				var bottomRight:Point = sr.globalToLocal(screen.bottomRight); 
+				
+				// clamp position, don't round
+				pt.x = Math.max(topLeft.x, Math.min(bottomRight.x - width, pt.x));
+				pt.y = Math.max(topLeft.y, Math.min(bottomRight.y - height, pt.y));
+				
+				x = Math.floor(pt.x);
+				y = Math.floor(pt.y);
+				
+				updateArrowPosition(globalPoint.x);
+			}
+			
+			public function normal(hasThumbnails:Boolean, playTransition:Boolean):void {
+				setCurrentState("normal" + (hasThumbnails ? "WithThumbnails": ""), playTransition);
+			}
+			
+			public function hidden(hasThumbnails:Boolean, playTransition:Boolean):void {
+				setCurrentState("hidden" + (hasThumbnails ? "WithThumbnails": ""), playTransition);
+			}
+			
+			private function updateArrowPosition(px:Number):void {
+				var mx:Number = globalToLocal(new Point(px, 0.0)).x;
+				var pad:Number = 1.0
+				var minX:Number = content.x + pad;
+				var maxX:Number = content.x + content.width - arrow.width - pad;
+				var ax:Number = mx - arrow.width / 2.0;
+				ax = Math.max(minX, ax);
+				ax = Math.min(maxX, ax);
+				arrow.x = Math.round(ax);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="hidden" stateGroups="hiddenGroup, withoutThumbnailsGroup" />
+		<s:State name="normal" stateGroups="normalGroup, withoutThumbnailsGroup" />
+		<s:State name="hiddenWithThumbnails" stateGroups="hiddenGroup, withThumbnailsGroup" />
+		<s:State name="normalWithThumbnails" stateGroups="normalGroup, withThumbnailsGroup" />
+	</s:states>
+	
+	<s:transitions>
+		<s:Transition
+			fromState="*"
+			toState="*"
+			autoReverse="true"
+			>
+			<s:Fade
+				target="{this}"
+				duration.normalGroup="80"
+				duration.hiddenGroup="200"
+				/>
+		</s:Transition>
+	</s:transitions>
+	
+	<s:Group
+		id="content"
+		left="2" right="2"
+		bottom="{arrow.height}"
+		>
+		
+		<s:Rect
+			left="0" right="0"
+			top="0" bottom="0"
+			minWidth.withoutThumbnailsGroup="40"
+			>
+			<s:fill>
+				<s:SolidColor
+					color="{getStyle('scrubBarTipBackgroundColor')}"
+					alpha="{getStyle('scrubBarTipBackgroundAlpha')}"
+					/>
+			</s:fill>
+		</s:Rect>
+		
+		<s:Group
+			horizontalCenter="0"
+			top="0"
+			left.withThumbnailsGroup="{getStyle('scrubBarTipContentPadding')}"
+			right.withThumbnailsGroup="{getStyle('scrubBarTipContentPadding')}"
+			top.withThumbnailsGroup="{getStyle('scrubBarTipContentPadding')}"
+			bottom.withThumbnailsGroup="{getStyle('scrubBarTipContentPadding')}"
+			>
+		
+			<s:SpriteVisualElement
+				id="thbCont"
+				includeIn="withThumbnailsGroup"
+				itemCreationPolicy="immediate"
+				itemDestructionPolicy="never"
+				/>
+			
+			<s:Group
+				horizontalCenter="0"
+				bottom.withThumbnailsGroup="2"
+				verticalCenter.withoutThumbnailsGroup="2"
+				>
+				
+				<s:Rect
+					left="0" right="0"
+					top="0" bottom="0"
+					includeIn="withThumbnailsGroup"
+					>
+					<s:fill>
+						<s:SolidColor
+							color="0"
+							alpha=".5"
+							/>
+					</s:fill>
+				</s:Rect>
+				
+				<s:Label
+					id="labelDisplay"
+					left="5" right="5"
+					top="3" bottom="3"
+					verticalCenter.withThumbnailsGroup="2"
+					textAlign="center"
+					fontSize="12"
+					color="{getStyle('scrubBarTipTextColor')}"
+					/>
+				
+			</s:Group>
+			
+		</s:Group>
+		
+	</s:Group>
+	
+	<s:Graphic
+		id="arrow"
+		bottom="0"
+		>
+		<s:Path>
+			<s:data>
+				H 10 L 5 5
+			</s:data>
+			<s:fill>
+				<s:SolidColor
+					color="{getStyle('scrubBarTipBackgroundColor')}"
+					alpha="{getStyle('scrubBarTipBackgroundAlpha')}"
+					/>
+			</s:fill>
+		</s:Path>
+	</s:Graphic>
+	
+</s:DataRenderer>

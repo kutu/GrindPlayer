@@ -1,0 +1,12 @@
+# FlashBuilder
+.settings
+.actionScriptProperties
+.flexProperties
+.project
+bin-debug
+bin-release
+
+# GrindPlayer
+assets/skin/sources
+build
+properties.bat

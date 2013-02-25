@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableComponent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					  xmlns:s="library://ns.adobe.com/flex/spark"
+					  skinClass="ru.kutu.grindplayer.views.skins.TimeInfoNormalSkin"
+					  skinClass.live="ru.kutu.grindplayer.views.skins.TimeInfoLiveSkin"
+					  implements="ru.kutu.grind.views.api.ITimeInfo"
+					  >
+	
+	<fx:Script>
+		<![CDATA[
+			
+			import org.osmf.net.StreamType;
+			
+			import spark.components.Label;
+			
+			[SkinPart]
+			public var timeDisplay:Label;
+			
+			[SkinPart]
+			public var durationDisplay:Label;
+			
+			public function set currentTime(value:String):void {
+				if (timeDisplay) {
+					timeDisplay.text = value;
+				}
+			}
+			
+			public function set duration(value:String):void {
+				if (durationDisplay) {
+					durationDisplay.text = value;
+				}
+			}
+			
+			public function set streamType(value:String):void {
+				currentState =
+					value == StreamType.LIVE ? "live" :
+					value == StreamType.DVR ? "dvr" :
+					"normal";
+			}
+			
+			override public function set visible(value:Boolean):void {
+				super.visible = includeInLayout = value;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="live" />
+		<s:State name="dvr" />
+	</s:states>
+	
+</s:SkinnableComponent>

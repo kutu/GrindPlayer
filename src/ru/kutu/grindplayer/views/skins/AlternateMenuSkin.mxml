@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:components="ru.kutu.grindplayer.views.components.*"
+		> 
+	
+	<fx:Metadata>
+		[HostComponent("ru.kutu.grindplayer.views.components.ControlBarMenuButton")]
+	</fx:Metadata>
+	
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="open"/>
+		<s:State name="disabled"/>
+	</s:states>
+	
+	<components:PopUpAnchorCentered
+		id="popUp"
+		includeIn="open"
+		left="0" right="0"
+		top="0" bottom="0"
+		itemCreationPolicy="immediate"
+		itemDestructionPolicy="never"
+		popUpPosition="above"
+		displayPopUp="false"
+		displayPopUp.open="true"
+		>
+		
+		<s:Group
+			id="dropDown"
+			>
+			
+			<s:VGroup
+				left="0" right="0"
+				top="0" bottom="0"
+				gap="0"
+				>
+				
+				<components:ControlBarMenuList
+					id="list"
+					left="0" right="0"
+					/>
+				
+			</s:VGroup>
+			
+			<!-- for dont react on scrub bar thumb -->
+			<s:Rect
+				width="{openButton.width}"
+				height="5"
+				x="{list.width - openButton.width >> 1}"
+				y="{list.height}"
+				includeInLayout="false"
+				>
+				<s:fill>
+					<s:SolidColor alpha="0" />
+				</s:fill>
+			</s:Rect>
+			
+		</s:Group>
+		
+	</components:PopUpAnchorCentered>
+	
+	<s:Button
+		id="openButton"
+		left="0" right="0"
+		top="0" bottom="0"
+		skinClass="ru.kutu.grindplayer.views.skins.AlternateMenuButtonSkin"
+		/>  
+	
+</s:Skin>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:components="ru.kutu.grindplayer.views.components.*"
+		>
+	
+	<fx:Metadata>
+		[HostComponent("ru.kutu.grindplayer.views.components.ScrubBar")]
+	</fx:Metadata>
+	
+	<fx:Script>
+		<![CDATA[
+			override protected function measure():void {
+				// Temporarily move the thumb to the left of the Slider so measurement
+				// doesn't factor in its x position. This allows resizing the
+				// HSlider to less than 100px in width. 
+				var thumbPos:Number = thumb.getLayoutBoundsX();
+				thumb.setLayoutBoundsPosition(0, thumb.getLayoutBoundsY());
+				super.measure();
+				thumb.setLayoutBoundsPosition(thumbPos, thumb.getLayoutBoundsY());
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<components:ScrubBarTip
+			id="scrubBarTip"
+			/>
+	</fx:Declarations>
+	
+	<s:states>
+		<s:State name="normal" stateGroups="normalGroup" />
+		<s:State name="minimized" stateGroups="normalGroup, minimizedGroup" />
+		<s:State name="disabled" stateGroups="normalGroup" />
+		<s:State name="normalAndFullScreen" stateGroups="fullScreenGroup" />
+		<s:State name="minimizedAndFullScreen" stateGroups="fullScreenGroup, minimizedGroup" />
+		<s:State name="disabledAndFullScreen" stateGroups="fullScreenGroup" />
+	</s:states>
+	
+	<s:transitions>
+		<s:Transition
+			fromState="*"
+			toState="*"
+			interruptionBehavior="stop"
+			autoReverse="true"
+			>
+			<s:Resize
+				targets="{[track, bars]}"
+				duration="120"
+				duration.minimizedGroup="200"
+				/>
+		</s:Transition>
+	</s:transitions>
+	
+	<s:Button
+		id="track"
+		left="0" right="0"
+		top="4"
+		top.minimizedGroup="8"
+		bottom="0"
+		tabEnabled="false"
+		skinClass="ru.kutu.grindplayer.views.skins.scrubbar.ScrubBarTrackSkin"
+		/>
+	
+	<s:Group
+		id="bars"
+		left="0" right="0"
+		top="4"
+		top.minimizedGroup="8"
+		bottom="0"
+		mouseEnabled="false"
+		mouseChildren="false"
+		>
+		
+		<!-- loaded bar -->
+		<s:Group
+			id="loadedBar"
+			top="0" bottom="0"
+			>
+			<s:Rect
+				left="0" right="0"
+				top="0" bottom="0"
+				>
+				<s:fill>
+					<s:SolidColor
+						color="{getStyle('loadedBarColor')}"
+						/>
+				</s:fill>
+			</s:Rect>
+		</s:Group>
+		
+		<!-- played bar -->
+		<s:Rect
+			id="playedBar"
+			width="{thumb.x + (thumb.width * thumb.scaleX) / 2}"
+			top="0" bottom="0"
+			>
+			<s:fill>
+				<s:SolidColor
+					color="{getStyle('tintColor')}"
+					/>
+			</s:fill>
+		</s:Rect>
+		
+	</s:Group>
+	
+	<components:ScrubBarThumbMinimized
+		id="thumb"
+		verticalCenter="2"
+		minimized.minimizedGroup="true"
+		tabEnabled="false"
+		skinClass="ru.kutu.grindplayer.views.skins.scrubbar.ScrubBarThumbSkin"
+		/>
+	
+</s:Skin>

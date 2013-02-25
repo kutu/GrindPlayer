@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Button xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  skinClass="ru.kutu.grindplayer.views.skins.volume.VolumeButtonNormalSkin"
+		  skinClass.volume1="ru.kutu.grindplayer.views.skins.volume.VolumeButton1Skin"
+		  skinClass.volume0="ru.kutu.grindplayer.views.skins.volume.VolumeButton0Skin"
+		  skinClass.muted="ru.kutu.grindplayer.views.skins.volume.VolumeButtonMutedSkin"
+		  currentStateChange="validateNow()"
+		  >
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="volume1" />
+		<s:State name="volume0" />
+		<s:State name="muted" />
+	</s:states>
+	
+</s:Button>

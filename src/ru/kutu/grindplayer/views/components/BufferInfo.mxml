@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:DataRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				dataChange="onDataChange(event)"
+				visible.hidden="false"
+				alpha.normal="1"
+				alpha.hidden="0"
+				mouseEnabled="false"
+				mouseChildren="false"
+				implements="ru.kutu.grind.views.api.IBufferInfo"
+				>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			import mx.events.FlexEvent;
+			
+			import ru.kutu.grindplayer.utils.drawCircleSector;
+			
+			private const RADIUS:uint = 18;
+			private const INNER_RADIUS:uint = 12;
+			private const MIN_BUFFER_PERCENT:Number = .1;
+			
+			private var circleBg:Shape;
+			private var sectorBuffering:Shape;
+			private var _bufferTime:Number;
+			private var bufferLength:Number;
+			
+			private var currentPercent:Number;
+			private var currentPercentTemp:Number;
+			
+			public function set bufferTime(value:Number):void {
+				_bufferTime = value;
+			}
+			
+			private function onDataChange(event:FlexEvent):void {
+				if (data == null) {
+					bufferLength = NaN;
+					currentPercent = NaN;
+					currentPercentTemp = NaN;
+					removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+					currentState = "hidden";
+					return;
+				}
+				
+				var newBufferLength:Number = Number(data);
+				if (isNaN(newBufferLength) || isNaN(_bufferTime) || newBufferLength == bufferLength) return;
+				bufferLength = newBufferLength;
+				
+				var percent:Number = bufferLength / _bufferTime;
+				percent = percent < MIN_BUFFER_PERCENT ? MIN_BUFFER_PERCENT : percent > 1 ? 1 : percent;
+				currentPercent = percent;
+				if (isNaN(currentPercentTemp)) {
+					currentPercentTemp = currentPercent;
+					draw(percent);
+				}
+				
+				if (currentState != "normal") {
+					addEventListener(Event.ENTER_FRAME, onEnterFrame);
+				}
+				
+				currentState = "normal";
+			}
+			
+			private function draw(percent:Number):void {
+				var g:Graphics;
+				
+				if (!circleBg) {
+					circleBg = new Shape();
+					g = circleBg.graphics;
+					g.beginFill(0x474747);
+					drawCircleSector(g, 0, 0, RADIUS, 360, INNER_RADIUS);
+					container.addChild(circleBg);
+				}
+				
+				if (!sectorBuffering) {
+					sectorBuffering = new Shape();
+					container.addChild(sectorBuffering);
+				}
+				g = sectorBuffering.graphics;
+				g.clear();
+				g.beginFill(0x757575);
+				drawCircleSector(g, 0, 0, RADIUS, percent * 360, INNER_RADIUS);
+			}
+			
+			private function onEnterFrame(event:Event):void {
+				if (currentPercentTemp != currentPercent) {
+					if (Math.abs(currentPercent - currentPercentTemp) < 0.01) {
+						currentPercentTemp = currentPercent;
+						draw(currentPercent);
+					} else {
+						currentPercentTemp += (currentPercent - currentPercentTemp) * .3;
+						draw(currentPercentTemp);
+					}
+				}
+				sectorBuffering.rotation += 10;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="hidden" />
+		<s:State name="normal" />
+	</s:states>
+	
+	<s:transitions>
+		<s:Transition
+			fromState="*"
+			toState="*"
+			autoReverse="true"
+			interruptionBehavior="stop"
+			>
+			<s:Fade
+				target="{this}"
+				startDelay.normal="1000"
+				duration.normal="480"
+				duration.hidden="0"
+				/>
+		</s:Transition>
+	</s:transitions>
+	
+	<s:SpriteVisualElement
+		id="container"
+		/>
+	
+</s:DataRenderer>

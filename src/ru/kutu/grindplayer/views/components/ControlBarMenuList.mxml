@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:List xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		minWidth="50"
+		requireSelection="true"
+		borderVisible="false"
+		contentBackgroundColor="{getStyle('menuBackgroundColor')}"
+		contentBackgroundAlpha="{getStyle('menuBackgroundAlpha')}"
+		itemRenderer="ru.kutu.grindplayer.views.components.renderers.ControlBarMenuItemRenderer"
+		>
+	
+	<s:layout>
+		<s:VerticalLayout
+			gap="0"
+			horizontalAlign="contentJustify"
+			/>
+	</s:layout>
+	
+</s:List>

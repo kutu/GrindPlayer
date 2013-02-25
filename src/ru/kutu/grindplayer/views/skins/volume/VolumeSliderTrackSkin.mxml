@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:helpers="ru.kutu.grindplayer.views.skins.helpers.*"
+		>
+	
+	<fx:Metadata>
+		[HostComponent("spark.components.Button")]
+	</fx:Metadata> 
+	
+	<s:states>
+		<s:State name="up" />
+		<s:State name="down" />
+		<s:State name="over" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<s:Rect
+		left="0" right="0"
+		height="4"
+		verticalCenter="-1"
+		>
+		<s:fill>
+			<s:SolidColor color="{getStyle('controlBarIconColor')}" />
+		</s:fill>
+	</s:Rect>
+	
+	<s:Rect
+		left="0" right="0"
+		height="1"
+		verticalCenter="2"
+		>
+		<s:fill>
+			<s:SolidColor />
+		</s:fill>
+	</s:Rect>
+	
+	<helpers:HitArea />
+	
+</s:Skin>

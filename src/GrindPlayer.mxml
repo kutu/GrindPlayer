@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:rl2="http://ns.robotlegs.org/flex/rl2"
+			   xmlns:mvcs="robotlegs.bender.bundles.mvcs.*"
+			   xmlns:config="ru.kutu.grindplayer.config.*"
+			   xmlns:components="ru.kutu.grindplayer.views.components.*"
+			   preloader="ru.kutu.grindplayer.views.components.Preloader"
+			   frameRate="25"
+			   tabChildren="false"
+			   >
+	
+	<fx:Metadata>
+		[ResourceBundle("Main")]
+	</fx:Metadata>
+	
+	<fx:Style source="GrindStyles.css" />
+	
+	<fx:Declarations>
+		<rl2:ContextBuilder>
+			<mvcs:MVCSBundle />
+			<config:AppConfig />
+		</rl2:ContextBuilder>
+	</fx:Declarations>
+	
+	<components:MainView
+		left="0" right="0"
+		top="0" bottom="0"
+		/>
+	
+</s:Application>

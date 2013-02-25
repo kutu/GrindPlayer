@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		>
+	
+	<fx:Metadata>
+		[HostComponent("ru.kutu.grindplayer.views.components.ClickAndDragHSlider")]
+	</fx:Metadata>
+	
+	<fx:Script>
+		override protected function measure():void {
+			// Temporarily move the thumb to the left of the Slider so measurement
+			// doesn't factor in its x position. This allows resizing the
+			// HSlider to less than 100px in width. 
+			var thumbPos:Number = thumb.getLayoutBoundsX();
+			thumb.setLayoutBoundsPosition(0, thumb.getLayoutBoundsY());
+			super.measure();
+			thumb.setLayoutBoundsPosition(thumbPos, thumb.getLayoutBoundsY());
+		}
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="disabled"/>
+	</s:states>
+	
+	<s:Button
+		id="track"
+		left="0" right="0"
+		top="0" bottom="0"
+		tabEnabled="false"
+		skinClass="ru.kutu.grindplayer.views.skins.volume.VolumeSliderTrackSkin"
+		/>
+	
+	<!-- volume bar -->
+	<s:Rect
+		width="{thumb.x + thumb.width / 2}"
+		height="4"
+		verticalCenter="-1"
+		>
+		<s:fill>
+			<s:SolidColor color="{getStyle('tintColor')}" />
+		</s:fill>
+	</s:Rect>
+	
+	<s:Button
+		id="thumb"
+		verticalCenter="0"
+		tabEnabled="false"
+		skinClass="ru.kutu.grindplayer.views.skins.volume.VolumeSliderThumbSkin"
+		/>
+	
+</s:Skin>

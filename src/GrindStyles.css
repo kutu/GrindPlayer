@@ -1,0 +1,50 @@
+@namespace s "library://ns.adobe.com/flex/spark";
+
+@font-face {
+	src: url("../assets/font/OpenSans-Regular.ttf");
+	fontFamily: "Open Sans";
+}
+
+global {
+	/* main theme color */
+	tintColor: #B91F1F;
+
+	/* control bar */
+	controlBarBackgroundColor: #1F1F1F;
+	controlBarBackgroundAlpha: 0.9;
+
+	/* control bar buttons */
+	controlBarIconColor: #757575;
+	controlBarIconColorOver: #959595;
+
+	/* scrub bar */
+	scurbBarThumbColor: #EAEAEA;
+	scurbBarThumbColor2: #AEAEAE;
+	emptyBarColor: #474747;
+	loadedBarColor: #757575;
+
+	/* scrub bar tip */
+	scrubBarTipBackgroundColor: #1F1F1F;
+	scrubBarTipBackgroundAlpha: 0.9;
+	scrubBarTipTextColor: #E3E3E3;
+	scrubBarTipContentPadding: 2;
+
+	/* menu popup */
+	menuBackgroundColor: #1F1F1F;
+	menuBackgroundAlpha: .9;
+
+	/* volume */
+	volumeThumbColor: #DDDDDD;
+
+	/* time info */
+	timeInfoTextColor: #FFFFFF;
+	timeInfoTextColor2: #999999;
+}
+
+s|Application {
+	backgroundColor: #000000;
+	backgroundAlpha: 0;
+	color: #F7F7F7;
+	fontFamily: "Open Sans";
+	fontSize: 11;
+}

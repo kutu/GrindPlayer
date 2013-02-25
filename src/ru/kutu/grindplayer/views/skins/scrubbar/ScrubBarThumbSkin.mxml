@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		>
+	
+	<fx:Metadata>
+		[HostComponent("ru.kutu.grindplayer.views.components.ScrubBarThumbMinimized")]
+	</fx:Metadata> 
+	
+	<s:states>
+		<s:State name="up" />
+		<s:State name="over" />
+		<s:State name="down" />
+		<s:State name="disabled" />
+		<s:State name="minimized" />
+	</s:states>
+	
+	<s:transitions>
+		<s:Transition
+			fromState="*"
+			toState="*"
+			interruptionBehavior="stop"
+			autoReverse="true"
+			>
+			<s:Parallel
+				duration="120"
+				duration.minimized="200"
+				>
+				<s:Move
+					target="{circle}"
+					/>
+				<s:Scale
+					target="{circle}"
+					/>
+			</s:Parallel>
+		</s:Transition>
+	</s:transitions>
+	
+	<s:Graphic
+		id="circle"
+		verticalCenter="0"
+		verticalCenter.minimized="2"
+		horizontalCenter="0"
+		scaleX.minimized="0"
+		scaleY.minimized="0"
+		>
+		<s:Ellipse width="16" height="16">
+			<s:fill>
+				<s:SolidColor color="{getStyle('scurbBarThumbColor')}" />
+			</s:fill>
+		</s:Ellipse>
+		<s:Ellipse
+			width="5" height="5"
+			x="5.5" y="5.5"
+			>
+			<s:fill>
+				<s:SolidColor
+					color="{getStyle('scurbBarThumbColor2')}"
+					color.over="{getStyle('tintColor')}"
+					color.down="{getStyle('tintColor')}"
+					/>
+			</s:fill>
+		</s:Ellipse>
+	</s:Graphic>
+	
+	<!-- hit area -->
+	<s:Ellipse width="16" height="16">
+		<s:fill>
+			<s:SolidColor alpha="0" />
+		</s:fill>
+	</s:Ellipse>
+	
+</s:Skin>

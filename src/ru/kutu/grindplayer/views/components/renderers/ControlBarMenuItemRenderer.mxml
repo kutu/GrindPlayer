@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				minHeight="22"
+				autoDrawBackground="false"
+				dataChange="onDataChange()"
+				>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			import ru.kutu.grind.vos.SelectorVO;
+			
+			private function onDataChange():void {
+				if (!data) return;
+				var vo:SelectorVO = data as SelectorVO;
+				if (!vo) return;
+				currentPoint.visible = currentPoint.includeInLayout = vo.isCurrent;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="hovered" />
+		<s:State name="selected" />
+	</s:states>
+	
+	<s:Rect
+		left="0" right="0"
+		top="0" bottom="0"
+		includeIn="hovered"
+		>
+		<s:fill>
+			<s:SolidColor
+				color="{getStyle('tintColor')}"
+				/>
+		</s:fill>
+	</s:Rect>
+	
+	<s:Rect
+		left="2" right="2"
+		top="2" bottom="2"
+		radiusX="2"
+		radiusY="2"
+		includeIn="selected"
+		>
+		<s:fill>
+			<s:SolidColor
+				color="{getStyle('tintColor')}"
+				/>
+		</s:fill>
+	</s:Rect>
+	
+	<s:Ellipse
+		id="currentPoint"
+		left="5"
+		width="4"
+		height="4"
+		verticalCenter="-1"
+		>
+		<s:fill>
+			<s:SolidColor
+				color="{getStyle('color')}"
+				/>
+		</s:fill>
+	</s:Ellipse>
+	
+	<s:Label
+		id="labelDisplay"
+		left="12"
+		right="12"
+		verticalCenter="0"
+		/>
+	
+</s:ItemRenderer>

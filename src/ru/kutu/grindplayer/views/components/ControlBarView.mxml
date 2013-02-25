@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableComponent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					  xmlns:s="library://ns.adobe.com/flex/spark"
+					  bottom="0"
+					  bottom.hiddenGroup="{-height}"
+					  implements="ru.kutu.grind.views.api.IControlBarView, ru.kutu.grind.views.api.IFullScreenState"
+					  >
+	<fx:Script>
+		<![CDATA[
+			
+			private var isFullScreen:Boolean;
+			private var _shown:Boolean;
+			
+			override protected function getCurrentSkinState():String {
+				return currentState;
+			}
+			
+			public function set fullScreen(value:Boolean):void {
+				isFullScreen = value;
+				updateState();
+			}
+			
+			public function get shown():Boolean { return _shown }
+			public function set shown(value:Boolean):void {
+				if (value == _shown) return;
+				_shown = value;
+				updateState();
+			}
+			
+			private function updateState():void {
+				currentState = (_shown ? "shown" : "hidden") + (isFullScreen ? "AndFullScreen" : "");
+				invalidateSkinState();
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="hidden" stateGroups="hiddenGroup, normalGroup" />
+		<s:State name="shown" stateGroups="shownGroup, normalGroup" />
+		<s:State name="hiddenAndFullScreen" stateGroups="hiddenGroup, fullScreenGroup" />
+		<s:State name="shownAndFullScreen" stateGroups="shownGroup, fullScreenGroup" />
+	</s:states>
+	
+	<s:transitions>
+		<s:Transition
+			fromState="*" toState="*"
+			autoReverse="true"
+			interruptionBehavior="stop"
+			>
+			<s:Animate
+				target="{this}"
+				duration.shownGroup="80"
+				duration.hiddenGroup="240"
+				effectStart="mouseChildren = false"
+				effectEnd="mouseChildren = true"
+				>
+				<s:motionPaths>
+					<s:SimpleMotionPath
+						property="bottom"
+						valueTo.shownGroup="0"
+						valueTo.hiddenGroup="{-height}"
+						/>
+				</s:motionPaths>
+			</s:Animate>
+		</s:Transition>
+	</s:transitions>
+	
+</s:SkinnableComponent>

@@ -1,0 +1,17 @@
+@echo off
+
+set flex_sdk=C:\PATH_TO_FLEX_SDK_WITHOUT_LAST_BACKSLASH
+set flex_bin=%flex_sdk%\bin
+
+set debug=false
+set logging=false
+
+set subtitles_plugin=..\SubtitlesPlugin
+set advertisement_plugin=..\AdvertisementPlugin
+set grind_framework=..\GrindFramework
+
+set build_dir=build
+
+if not exist "%build_dir%\libs" (
+	mkdir "%build_dir%\libs"
+)

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:components="ru.kutu.grindplayer.views.components.*"
+		 resize="dispatchResizeEvent()"
+		 implements="ru.kutu.grind.views.api.IPlayerView"
+		 >
+	
+	<fx:Script>
+		<![CDATA[
+			
+			import ru.kutu.grind.events.PlayerViewEvent;
+			
+			private var _controlBarAutoHide:Boolean;
+			
+			public function get mediaPlayerContainer():DisplayObjectContainer {
+				return mpc;
+			}
+			
+			public function get controlBarAutoHide():Boolean { return _controlBarAutoHide }
+			public function set controlBarAutoHide(value:Boolean):void {
+				_controlBarAutoHide = value;
+				mpc.bottom = value ? 0 : 30;
+				dispatchResizeEvent();
+			}
+			
+			private function dispatchResizeEvent():void {
+				validateNow();
+				dispatchEvent(new PlayerViewEvent(PlayerViewEvent.RESIZE));
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:SpriteVisualElement
+		id="mpc"
+		left="0" right="0"
+		top="0"
+		/>
+	
+	<components:Subtitles
+		width="70%"
+		bottom="{controlBar.height + controlBar.getStyle('bottom') + height * .05}"
+		horizontalCenter="0"
+		/>
+	
+	<components:ControlBarView
+		id="controlBar"
+		width="100%"
+		skinClass="ru.kutu.grindplayer.views.skins.ControlBarSkin"
+		/>
+	
+	<components:BufferInfo
+		verticalCenter="0"
+		horizontalCenter="0"
+		/>
+	
+</s:Group>

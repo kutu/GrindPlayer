@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		>
+	
+	<fx:Metadata>
+		[HostComponent("ru.kutu.grindplayer.views.components.TimeInfo")]
+	</fx:Metadata>
+	
+	<s:Group
+		verticalCenter="0"
+		>
+		<s:filters>
+			<s:DropShadowFilter
+				distance="1.0"
+				angle="90.0"
+				blurX="0.0"
+				blurY="0.0"
+				/>
+		</s:filters>
+		
+		<s:Ellipse
+			width="6"
+			height="6"
+			verticalCenter="-1"
+			>
+			<s:fill>
+				<s:SolidColor
+					color="{getStyle('tintColor')}"
+					/>
+			</s:fill>
+		</s:Ellipse>
+		<s:Label
+			left="10"
+			color="{getStyle('timeInfoTextColor2')}"
+			text="{resourceManager.getString('Main', 'liveLabel')}"
+			/>
+	</s:Group>
+	
+</s:Skin>

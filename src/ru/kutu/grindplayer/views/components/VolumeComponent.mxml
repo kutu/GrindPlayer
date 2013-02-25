@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:components="ru.kutu.grindplayer.views.components.*"
+		 initialize="init(event)"
+		 implements="ru.kutu.grind.views.api.IVolumeComponent"
+		 >
+	
+	<fx:Script>
+		<![CDATA[
+			
+			import mx.events.FlexEvent;
+			
+			import ru.kutu.grind.events.VolumeComponentEvent;
+			
+			private var mouseOver:Boolean;
+			private var sliderChanging:Boolean;
+			
+			public function get volume():Number {
+				return volumeSlider.value;
+			}
+			
+			public function set volume(value:Number):void {
+				volumeSlider.value = value;
+				updateVolumeButtonState();
+			}
+			
+			override public function set currentState(value:String):void {
+				if (value == super.currentState)
+					return;
+				if (value == "closed" && (mouseOver || sliderChanging))
+					return;
+				super.currentState = value;
+			}
+			
+			private function init(event:FlexEvent):void {
+				volumeButton.addEventListener(MouseEvent.CLICK, onVolumeButtonClick);
+				volumeSlider.addEventListener(FlexEvent.CHANGE_START, onVolumeSliderChangeStart);
+				volumeSlider.addEventListener(FlexEvent.CHANGE_END, onVolumeSliderChangeEnd);
+				volumeSlider.addEventListener(Event.CHANGE, onVolumeSliderChange);
+				addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
+			}
+			
+			private function onVolumeButtonClick(event:MouseEvent):void {
+				dispatchEvent(new VolumeComponentEvent(VolumeComponentEvent.BUTTON_CLICK));
+			}
+			
+			private function onVolumeSliderChangeStart(event:FlexEvent):void {
+				sliderChanging = true;
+				dispatchEvent(new VolumeComponentEvent(VolumeComponentEvent.SLIDER_CHANGE_START));
+			}
+			
+			private function onVolumeSliderChangeEnd(event:FlexEvent):void {
+				sliderChanging = false;
+				currentState = "closed";
+				dispatchEvent(new VolumeComponentEvent(VolumeComponentEvent.SLIDER_CHANGE_END));
+			}
+			
+			private function onVolumeSliderChange(event:Event):void {
+				dispatchEvent(new VolumeComponentEvent(VolumeComponentEvent.SLIDER_CHANGE));
+			}
+			
+			private function onMouseOver(event:Event):void {
+				if (mouseOver) return;
+				mouseOver = true;
+				currentState = "opened";
+				systemManager.getSandboxRoot().addEventListener(MouseEvent.MOUSE_MOVE, system_mouseMove);
+				systemManager.getSandboxRoot().stage.addEventListener(Event.MOUSE_LEAVE, onMouseLeave);
+			}
+			
+			private function system_mouseMove(event:MouseEvent):void {
+				if (!mouseOver) return;
+				if (!hitTestPoint(event.stageX, event.stageY)) {
+					mouseOver = false
+					systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_MOVE, system_mouseMove);
+					systemManager.getSandboxRoot().stage.removeEventListener(Event.MOUSE_LEAVE, onMouseLeave);
+					currentState = "closed";
+				}
+			}
+			
+			private function onMouseLeave(event:Event):void {
+				if (sliderChanging) return;
+				mouseOver = false;
+				systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_MOVE, system_mouseMove);
+				systemManager.getSandboxRoot().stage.removeEventListener(Event.MOUSE_LEAVE, onMouseLeave);
+				currentState = "closed";
+			}
+			
+			private function updateVolumeButtonState():void {
+				volumeButton.setCurrentState(
+					volume == 0 ? "muted"
+					: volume <= .25 ? "volume0"
+					: volume <= .50 ? "volume1"
+					: "normal"
+				);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<fx:Boolean id="stopOpened" />
+		<fx:Boolean id="finishOpened" />
+	</fx:Declarations>
+	
+	<s:states>
+		<s:State name="closed" />
+		<s:State name="opened" />
+	</s:states>
+	
+	<s:transitions>
+		<s:Transition
+			fromState="*" toState="*"
+			autoReverse="true"
+			interruptionBehavior="stop"
+			>
+			<s:Move
+				id="moveEffect"
+				target="{volumeSliderCont}"
+				duration.opened="80"
+				duration.closed="240"
+				startDelay.closed="{finishOpened &amp;&amp; !stopOpened ? 500 : 0}"
+				effectStop.opened="stopOpened = true"
+				effectEnd.opened="finishOpened = true"
+				effectStart.closed="stopOpened = finishOpened = false"
+				/>
+		</s:Transition>
+	</s:transitions>
+	
+	<s:Rect
+		left="0" right="0"
+		top="0" bottom="0"
+		>
+		<s:fill>
+			<s:SolidColor alpha="0" />
+		</s:fill>
+	</s:Rect>
+	
+	<s:HGroup
+		top="0" bottom="0"
+		verticalAlign="contentJustify"
+		gap="0"
+		>
+		
+		<components:VolumeButton
+			id="volumeButton"
+			width="28"
+			/>
+		
+		<s:Group>
+			<s:mask>
+				<s:Group>
+					<s:Rect
+						width="{volumeSliderCont.width}"
+						height="{volumeSliderCont.height}"
+						>
+						<s:fill>
+							<s:SolidColor />
+						</s:fill>
+					</s:Rect>
+				</s:Group>
+			</s:mask>
+			
+			<s:Group
+				id="volumeSliderCont"
+				top="0" bottom="0"
+				x.closed="{-volumeSliderCont.width}"
+				>
+				<components:ClickAndDragHSlider
+					id="volumeSlider"
+					width="50"
+					top="0" bottom="0"
+					left="8"
+					maximum="1"
+					stepSize=".01"
+					slideDuration="0"
+					showDataTip="false"
+					skinClass="ru.kutu.grindplayer.views.skins.volume.VolumeSliderSkin"
+					/>
+			</s:Group>
+		</s:Group>
+		
+	</s:HGroup>
+	
+</s:Group>
