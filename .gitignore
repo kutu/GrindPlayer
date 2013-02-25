@@ -10,3 +10,6 @@ bin-release
 assets/skin/sources
 build
 properties.bat
+AdvertisementPlugin
+GrindFramework
+SubtitlesPlugin
