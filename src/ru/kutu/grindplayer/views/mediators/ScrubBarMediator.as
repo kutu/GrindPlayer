@@ -8,7 +8,6 @@ package ru.kutu.grindplayer.views.mediators {
 	
 	public class ScrubBarMediator extends ScrubBarBaseMediator {
 		
-		private var isAdvertisement:Boolean;
 		private var hideScrubBarWhileAdvertisement:Boolean;
 		
 		override protected function processMediaElementChange(oldMediaElement:MediaElement):void {
@@ -26,13 +25,12 @@ package ru.kutu.grindplayer.views.mediators {
 		}
 		
 		override protected function updateEnabled():void {
-			view.enabled = isStartPlaying && !isAdvertisement;
+			view.enabled = isStartPlaying;
 			view.visible = streamType != StreamType.LIVE && !hideScrubBarWhileAdvertisement;
 		}
 		
 		private function onMediaMetadataChange(event:MetadataEvent):void {
 			if (event.key != "Advertisement") return;
-			isAdvertisement = event.type != MetadataEvent.VALUE_REMOVE;
 			hideScrubBarWhileAdvertisement = false;
 			if (event.value && event.value is Array) {
 				for each (var item:Object in event.value) {
