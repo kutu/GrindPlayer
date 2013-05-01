@@ -7,7 +7,7 @@
 
 global {
 	/* main theme color */
-	tintColor: #B91F1F;
+	tintColor: #CC181E;
 
 	/* control bar */
 	controlBarBackgroundColor: #1F1F1F;
@@ -20,8 +20,8 @@ global {
 	/* scrub bar */
 	scurbBarThumbColor: #EAEAEA;
 	scurbBarThumbColor2: #AEAEAE;
-	emptyBarColor: #474747;
-	loadedBarColor: #757575;
+	emptyBarColor: #222222;
+	loadedBarColor: #777777;
 
 	/* scrub bar tip */
 	scrubBarTipBackgroundColor: #1F1F1F;
