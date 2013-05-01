@@ -38,7 +38,7 @@
 
 		<s:Rect
 			left="0" right="0"
-			height="27"
+			height="{scrubBar.visible ? 27 : 30}"
 			>
 			<s:fill>
 				<s:SolidColor
