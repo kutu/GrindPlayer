@@ -16,9 +16,9 @@
 	</s:states>
 	
 	<s:Rect
+		y="{height - 4 >> 1}"
 		left="0" right="0"
 		height="4"
-		verticalCenter="-1"
 		>
 		<s:fill>
 			<s:SolidColor color="{getStyle('controlBarIconColor')}" />
@@ -26,9 +26,9 @@
 	</s:Rect>
 	
 	<s:Rect
+		y="{(height - 4 >> 1) + 4}"
 		left="0" right="0"
 		height="1"
-		verticalCenter="2"
 		>
 		<s:fill>
 			<s:SolidColor />

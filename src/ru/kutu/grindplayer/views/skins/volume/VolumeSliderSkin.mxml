@@ -34,9 +34,9 @@
 	
 	<!-- volume bar -->
 	<s:Rect
+		y="{height - 4 >> 1}"
 		width="{thumb.x + thumb.width / 2}"
 		height="4"
-		verticalCenter="-1"
 		>
 		<s:fill>
 			<s:SolidColor color="{getStyle('tintColor')}" />
