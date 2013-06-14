@@ -56,7 +56,7 @@
 		id="track"
 		left="0" right="0"
 		top="4"
-		top.minimizedGroup="8"
+		top.minimizedGroup="9"
 		bottom="0"
 		tabEnabled="false"
 		skinClass="ru.kutu.grindplayer.views.skins.scrubbar.ScrubBarTrackSkin"
@@ -66,7 +66,7 @@
 		id="bars"
 		left="0" right="0"
 		top="4"
-		top.minimizedGroup="8"
+		top.minimizedGroup="9"
 		bottom="0"
 		mouseEnabled="false"
 		mouseChildren="false"
@@ -106,7 +106,7 @@
 	
 	<components:ScrubBarThumbMinimized
 		id="thumb"
-		verticalCenter="2"
+		verticalCenter="1"
 		minimized.minimizedGroup="true"
 		tabEnabled="false"
 		skinClass="ru.kutu.grindplayer.views.skins.scrubbar.ScrubBarThumbSkin"

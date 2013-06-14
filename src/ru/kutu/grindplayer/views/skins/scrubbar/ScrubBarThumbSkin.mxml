@@ -39,7 +39,7 @@
 	<s:Graphic
 		id="circle"
 		verticalCenter="0"
-		verticalCenter.minimized="2"
+		verticalCenter.minimized="4"
 		horizontalCenter="0"
 		scaleX.minimized="0"
 		scaleY.minimized="0"
