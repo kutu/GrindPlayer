@@ -20,7 +20,7 @@ global {
 	/* scrub bar */
 	scurbBarThumbColor: #EAEAEA;
 	scurbBarThumbColor2: #AEAEAE;
-	emptyBarColor: #222222;
+	emptyBarColor: #444444;
 	loadedBarColor: #777777;
 
 	/* scrub bar tip */
