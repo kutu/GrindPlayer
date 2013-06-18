@@ -1,8 +1,7 @@
 package ru.kutu.grindplayer.views.mediators {
 
-	import org.swiftsuspenders.Injector;
-	
 	import robotlegs.bender.bundles.mvcs.Mediator;
+	import robotlegs.bender.framework.api.IInjector;
 	
 	import ru.kutu.grind.config.PlayerConfiguration;
 	import ru.kutu.grind.events.AutoHideEvent;
@@ -10,7 +9,7 @@ package ru.kutu.grindplayer.views.mediators {
 
 	public class ScrubBarMinimizedMediator extends Mediator {
 		
-		[Inject] public var injector:Injector;
+		[Inject] public var injector:IInjector;
 		[Inject] public var view:IScrubBarMinimized;
 		
 		override public function initialize():void {
