@@ -14,7 +14,6 @@ package ru.kutu.grindplayer.config  {
 	
 	import ru.kutu.grind.config.ConfigurationProxyProvider;
 	import ru.kutu.grind.config.GrindConfig;
-	import ru.kutu.grind.config.GrindLogHandler;
 	import ru.kutu.grind.config.JavaScriptBridgeBase;
 	import ru.kutu.grind.config.LocalSettings;
 	import ru.kutu.grind.config.PlayerConfiguration;
@@ -60,12 +59,6 @@ package ru.kutu.grindplayer.config  {
 	
 	import spark.components.Application;
 	
-	CONFIG::LOGGING {
-		import org.osmf.logging.Log;
-		import org.osmf.player.debug.LogHandler;
-		import org.osmf.player.debug.StrobeLoggerFactory;
-	}
-	
 	public class AppConfig extends GrindConfig {
 		
 		[Inject] public var contextView:ContextView;
@@ -74,12 +67,6 @@ package ru.kutu.grindplayer.config  {
 		
 		override public function configure():void {
 			super.configure();
-			
-			CONFIG::LOGGING {
-				var logHandler:LogHandler = new GrindLogHandler(false);
-				injector.injectInto(logHandler);
-				Log.loggerFactory = new StrobeLoggerFactory(logHandler);
-			}
 			
 			Application(contextView.view).focusManager.deactivate();
 			

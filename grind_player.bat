@@ -14,7 +14,6 @@
 	-l libs "%build_dir%\libs" ^
 	-externs ru.kutu.osmf.advertisement.AdvertisementPlugin ^
 	-externs ru.kutu.osmf.subtitles.SubtitlesPlugin ^
-	-define CONFIG::LOGGING %logging% ^
 	-define CONFIG::HLS false ^
 	-define CONFIG::DEV false ^
 	%* ^

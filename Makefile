@@ -44,7 +44,6 @@ $(GRIND_PLAYER): $(BUILD_DIR) $(GRIND_FRAMEWORK) $(ADVERTISEMENT_PLUGIN) $(SUBTI
 	-l libs "$(BUILD_DIR)/libs" \
 	-externs ru.kutu.osmf.advertisement.AdvertisementPlugin \
 	-externs ru.kutu.osmf.subtitles.SubtitlesPlugin \
-	-define CONFIG::LOGGING $(LOGGING) \
 	-define CONFIG::HLS false \
 	-define CONFIG::DEV false \
 	src/GrindPlayer.mxml \
