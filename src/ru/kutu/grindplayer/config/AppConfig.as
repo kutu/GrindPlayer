@@ -31,6 +31,7 @@ package ru.kutu.grindplayer.config  {
 	import ru.kutu.grind.views.api.IQualityMenuButton;
 	import ru.kutu.grind.views.api.IScrubBar;
 	import ru.kutu.grind.views.api.IScrubBarTip;
+	import ru.kutu.grind.views.api.IStatInfo;
 	import ru.kutu.grind.views.api.ITimeInfo;
 	import ru.kutu.grind.views.api.IVolumeComponent;
 	import ru.kutu.grind.views.mediators.AlternateMenuBaseMediator;
@@ -52,6 +53,7 @@ package ru.kutu.grindplayer.config  {
 	import ru.kutu.grindplayer.views.mediators.ScrubBarMediator;
 	import ru.kutu.grindplayer.views.mediators.ScrubBarMinimizedMediator;
 	import ru.kutu.grindplayer.views.mediators.ShortcutsMediator;
+	import ru.kutu.grindplayer.views.mediators.StatInfoMediator;
 	import ru.kutu.grindplayer.views.mediators.SubtitlesMediator;
 	import ru.kutu.grindplayer.views.mediators.SubtitlesMenuMediator;
 	import ru.kutu.grindplayer.views.mediators.api.IScrubBarMinimized;
@@ -82,6 +84,7 @@ package ru.kutu.grindplayer.config  {
 			mediatorMap.map(Subtitles).toMediator(SubtitlesMediator);
 			mediatorMap.map(IControlBarView).toMediator(ControlBarBaseMediator);
 			mediatorMap.map(IBufferInfo).toMediator(BufferInfoMediator);
+			mediatorMap.map(IStatInfo).toMediator(StatInfoMediator);
 			
 			mediatorMap.map(IScrubBar).toMediator(ScrubBarMediator);
 			mediatorMap.map(IScrubBarTip).toMediator(ScrubBarTipBaseMediator);

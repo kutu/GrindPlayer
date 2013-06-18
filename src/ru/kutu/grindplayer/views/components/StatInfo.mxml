@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:renderers="ru.kutu.grindplayer.views.components.renderers.*"
+		 mouseEnabled="false"
+		 visible="false"
+		 fontSize="10"
+		 implements="ru.kutu.grind.views.api.IStatInfo"
+		 >
+	
+	<fx:Script>
+		<![CDATA[
+			
+			import org.osmf.media.videoClasses.VideoSurface;
+			import org.osmf.media.videoClasses.VideoSurfaceInfo;
+			import org.osmf.net.qos.FragmentDetails;
+			import org.osmf.net.qos.QoSInfo;
+			import org.osmf.utils.OSMFSettings;
+			
+			import ru.kutu.grind.events.StatInfoEvent;
+			
+			private var prevDroppedFrames:int;
+			private var prevBytesLoaded:uint;
+			private var prevBytesLoadedTimestamp:int;
+			
+			override public function set visible(value:Boolean):void {
+				super.visible = includeInLayout = value;
+			}
+			
+			public function clear():void {
+				hardwareVideoDecoding.text = "";
+				hardwareVideoRendering.text = "";
+				
+				frameRateChart.clear();
+				droppedFramesChart.clear();
+				bufferLengthChart.clear();
+				downloadSpeedChartHttp.clear();
+				downloadSpeedChart.clear();
+				memoryUsageChart.clear();
+				
+				prevDroppedFrames = -1;
+				prevBytesLoaded = 0;
+				
+				downloadSpeedGroup.visible = downloadSpeedGroup.includeInLayout = false;
+				downloadSpeedHttpGroup.visible = downloadSpeedHttpGroup.includeInLayout = false;
+			}
+			
+			public function update(videoSurface:VideoSurface, netStream:NetStream, qosInfos:Vector.<QoSInfo>):void {
+				var mbps:Number;
+				
+				if (videoSurface) {
+					const videoSurfaceInfo:VideoSurfaceInfo = videoSurface.info;
+					hardwareVideoDecoding.text = videoSurfaceInfo.renderStatus;
+					hardwareVideoRendering.text = OSMFSettings.supportsStageVideo
+						? videoSurfaceInfo.stageVideoInUse
+							? "accelerated (StageVideo " + videoSurfaceInfo.stageVideoInUseCount + "/" + videoSurfaceInfo.stageVideoCount + ")"
+							: "software"
+						: "unavailable";
+				}
+				
+				if (netStream) {
+					var nsInfo:NetStreamInfo = netStream.info;
+					
+					// frame rate
+					frameRate.text = Math.round(netStream.currentFPS).toString();
+					frameRateChart.addValue(netStream.currentFPS);
+					
+					// dropped frames
+					if (nsInfo) {
+						if (prevDroppedFrames != -1) {
+							droppedFrames.text = Math.round(nsInfo.droppedFrames).toString();
+							droppedFramesChart.addValue(nsInfo.droppedFrames - prevDroppedFrames);
+						}
+						prevDroppedFrames = nsInfo.droppedFrames;
+					}
+					
+					// buffer length/time
+					bufferLength.text = netStream.bufferLength.toFixed(1);
+					bufferTime.text = netStream.bufferTime.toFixed(1);
+					bufferLengthChart.addValue(netStream.bufferLength);
+					
+					// download speed
+					if (netStream.bytesLoaded < netStream.bytesTotal) {
+						// progressive download
+						if (prevBytesLoaded > 0) {
+							mbps = (netStream.bytesLoaded - prevBytesLoaded) / ((getTimer() - prevBytesLoadedTimestamp) * .001);
+						}
+						prevBytesLoaded = netStream.bytesLoaded;
+						prevBytesLoadedTimestamp = getTimer();
+					} else if (nsInfo) {
+						// rtmp
+						mbps = nsInfo.dataBytesPerSecond + nsInfo.videoBytesPerSecond + nsInfo.audioBytesPerSecond;
+						if (!downloadSpeedGroup.visible && mbps == 0.0) mbps = NaN;
+					}
+					if (!isNaN(mbps)) {
+						if (!downloadSpeedGroup.visible) {
+							downloadSpeedGroup.visible = downloadSpeedGroup.includeInLayout = true;
+						}
+						mbps /= 125000;
+						downloadSpeed.text = mbps.toFixed(2);
+						downloadSpeedChart.addValue(mbps);
+					}
+				}
+				
+				// download speed
+				if (qosInfos && qosInfos.length) {
+					// http streaming
+					if (!downloadSpeedHttpGroup.visible) {
+						downloadSpeedHttpGroup.visible = downloadSpeedHttpGroup.includeInLayout = true;
+					}
+					
+					for each (var qosInfo:QoSInfo in qosInfos) {
+						var details:FragmentDetails = qosInfo.lastDownloadedFragmentDetails;
+						if (!details) continue;
+						if (details.downloadDuration < 0.5) {
+							// cache
+							downloadSpeedHttp.text = "cache";
+							downloadSpeedChartHttp.addValue(0.0);
+						} else {
+							mbps = details.size / details.downloadDuration / 125000;
+							downloadSpeedHttp.text = mbps.toFixed(2);
+							downloadSpeedChartHttp.addValue(mbps);
+						}
+					}
+				}
+				
+				// memory usage
+				var memory:Number = System.totalMemoryNumber / 1048576;
+				memoryUsage.text = memory.toFixed(2);
+				memoryUsageChart.addValue(memory);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Style>
+		.minMaxGroup {
+			fontSize: 8;
+		}
+		.minValue {
+			alignmentBaseline: descent;
+			baselineShift: -1;
+		}
+	</fx:Style>
+	
+	<s:Rect
+		left="0" right="0"
+		top="0" bottom="0"
+		>
+		<s:stroke>
+			<s:SolidColorStroke
+				color="0x666666"
+				/>
+		</s:stroke>
+		<s:fill>
+			<s:SolidColor
+				color="{getStyle('controlBarBackgroundColor')}"
+				alpha="{getStyle('controlBarBackgroundAlpha')}"
+				/>
+		</s:fill>
+	</s:Rect>
+	
+	<s:Button
+		width="14"
+		height="14"
+		top="3"
+		right="3"
+		click="dispatchEvent(new StatInfoEvent(StatInfoEvent.HIDE))"
+		skinClass="ru.kutu.grindplayer.views.skins.CloseButtonSkin"
+		/>
+	
+	<s:VGroup
+		minWidth="220"
+		mouseEnabled="false"
+		mouseChildren="false"
+		paddingLeft="5" paddingRight="5"
+		paddingTop="6" paddingBottom="6"
+		horizontalAlign="justify"
+		gap="6"
+		>
+		
+		<s:HGroup gap="2">
+			<s:Label text="Video Decoding:" />
+			<s:Label id="hardwareVideoDecoding" />
+		</s:HGroup>
+		
+		<s:HGroup gap="2">
+			<s:Label text="Video Rendering:" />
+			<s:Label id="hardwareVideoRendering" />
+		</s:HGroup>
+		
+		<s:VGroup gap="1">
+			<s:Label text="Frame Rate" />
+			
+			<s:HGroup width="100%" height="20" gap="0">
+				<s:Group height="100%" styleName="minMaxGroup">
+					<s:Label right="0" text="{frameRateChart.max.toFixed(1)}" />
+					<s:Label right="0" bottom="0" text="{frameRateChart.min.toFixed(1)}" styleName="minValue" />
+				</s:Group>
+				<renderers:StatChart id="frameRateChart" width="100%" height="100%" />
+				<s:Label id="frameRate" paddingLeft="1" />
+			</s:HGroup>
+		</s:VGroup>
+		
+		<s:VGroup gap="1">
+			<s:Label text="Dropped Frames" />
+			
+			<s:HGroup width="100%" height="100%" minHeight="16" gap="0">
+				<s:Label text="{droppedFramesChart.max}" styleName="minMaxGroup" />
+				<renderers:StatBarChart id="droppedFramesChart" width="100%" height="100%" barWidth="1" />
+				<s:Label id="droppedFrames" paddingLeft="2" />
+			</s:HGroup>
+		</s:VGroup>
+		
+		<s:VGroup gap="1">
+			<s:Label text="Buffer Length, s" />
+			
+			<s:HGroup width="100%" height="20" gap="0">
+				<s:Group height="100%" styleName="minMaxGroup">
+					<s:Label right="0" text="{bufferLengthChart.max.toFixed(1)}" />
+					<s:Label right="0" bottom="0" text="{bufferLengthChart.min.toFixed(1)}" styleName="minValue" />
+				</s:Group>
+				<renderers:StatChart id="bufferLengthChart" width="100%" height="100%" />
+				<s:VGroup gap="0" horizontalAlign="right" paddingLeft="1">
+					<s:Label id="bufferLength" />
+					<s:Label id="bufferTime" color="0x999999" />
+				</s:VGroup>
+			</s:HGroup>
+		</s:VGroup>
+		
+		<!-- progressive, rtmp -->
+		<s:VGroup id="downloadSpeedGroup" gap="1">
+			<s:Label text="Download Speed, Mbps" />
+			
+			<s:HGroup width="100%" height="20" gap="0">
+				<s:Group height="100%" styleName="minMaxGroup">
+					<s:Label right="0" text="{downloadSpeedChart.max.toFixed(1)}" />
+					<s:Label right="0" bottom="0" text="{downloadSpeedChart.min.toFixed(1)}" styleName="minValue" />
+				</s:Group>
+				<renderers:StatChart id="downloadSpeedChart" width="100%" height="100%" />
+				<s:Label id="downloadSpeed" paddingLeft="1" />
+			</s:HGroup>
+		</s:VGroup>
+		
+		<!-- http streaming -->
+		<s:VGroup id="downloadSpeedHttpGroup" gap="1">
+			<s:Label text="Download Speed, Mbit/s" />
+			
+			<s:HGroup width="100%" height="100%" minHeight="16" gap="0">
+				<s:Label text="{downloadSpeedChartHttp.max.toFixed(1)}" styleName="minMaxGroup" />
+				<renderers:StatBarChart id="downloadSpeedChartHttp" width="100%" height="100%" barWidth="3" />
+				<s:Label id="downloadSpeedHttp" paddingLeft="2" />
+			</s:HGroup>
+		</s:VGroup>
+		
+		<s:VGroup gap="1">
+			<s:Label text="Memory usage, MB" />
+			
+			<s:HGroup width="100%" height="20" gap="0">
+				<s:Group height="100%" styleName="minMaxGroup">
+					<s:Label right="0" text="{memoryUsageChart.max.toFixed(1)}" />
+					<s:Label right="0" bottom="0" text="{memoryUsageChart.min.toFixed(1)}" styleName="minValue" />
+				</s:Group>
+				<renderers:StatChart id="memoryUsageChart" width="100%" height="100%" />
+				<s:Label id="memoryUsage" paddingLeft="1" />
+			</s:HGroup>
+		</s:VGroup>
+		
+	</s:VGroup>
+	
+</s:Group>

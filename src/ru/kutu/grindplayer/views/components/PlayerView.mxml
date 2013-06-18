@@ -57,4 +57,10 @@
 		horizontalCenter="0"
 		/>
 	
+	<components:StatInfo
+		id="qosInfo"
+		left="4"
+		top="4"
+		/>
+	
 </s:Group>
