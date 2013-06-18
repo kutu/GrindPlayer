@@ -35,7 +35,6 @@
 
 	<s:Group
 		width="100%"
-		mouseEnabled="false"
 		>
 
 		<s:Rect
