@@ -2,6 +2,7 @@
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:components="ru.kutu.grindplayer.views.components.*"
+		mouseEnabled="false"
 		>
 	
 	<fx:Metadata>
@@ -58,7 +59,6 @@
 		top="4"
 		top.minimizedGroup="9"
 		bottom="0"
-		tabEnabled="false"
 		skinClass="ru.kutu.grindplayer.views.skins.scrubbar.ScrubBarTrackSkin"
 		/>
 	
@@ -108,7 +108,6 @@
 		id="thumb"
 		verticalCenter="1"
 		minimized.minimizedGroup="true"
-		tabEnabled="false"
 		skinClass="ru.kutu.grindplayer.views.skins.scrubbar.ScrubBarThumbSkin"
 		/>
 	

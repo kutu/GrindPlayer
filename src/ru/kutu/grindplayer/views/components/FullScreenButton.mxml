@@ -3,6 +3,7 @@
 		  xmlns:s="library://ns.adobe.com/flex/spark"
 		  skinClass.normal="ru.kutu.grindplayer.views.skins.NormalScreenButtonSkin"
 		  skinClass.fullscreen="ru.kutu.grindplayer.views.skins.FullScreenButtonSkin"
+		  mouseChildren="false"
 		  visible.unavailable="false" includeInLayout.unavailable="false"
 		  implements="ru.kutu.grind.views.api.IFullScreenButton, ru.kutu.grind.views.api.IFullScreenState"
 		  >

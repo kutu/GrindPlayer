@@ -3,6 +3,7 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:components="ru.kutu.grindplayer.views.components.*"
 		blendMode="layer"
+		mouseEnabled="false"
 		>
 
 	<s:layout>
@@ -34,6 +35,7 @@
 
 	<s:Group
 		width="100%"
+		mouseEnabled="false"
 		>
 
 		<s:Rect
@@ -52,6 +54,7 @@
 			id="controlPanel"
 			left="0" right="0"
 			top="0" bottom="0"
+			mouseEnabled="false"
 			verticalAlign="contentJustify"
 			gap="0"
 			>
@@ -60,13 +63,11 @@
 				width="55"
 				/>
 
-			<components:VolumeComponent
-				/>
+			<components:VolumeComponent />
 
 			<s:Spacer width="10" />
 
-			<components:TimeInfo
-				/>
+			<components:TimeInfo />
 
 			<s:Spacer width="100%" />
 

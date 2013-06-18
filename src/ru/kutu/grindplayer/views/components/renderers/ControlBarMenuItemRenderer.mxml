@@ -2,6 +2,7 @@
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				xmlns:s="library://ns.adobe.com/flex/spark"
 				minHeight="22"
+				mouseChildren="false"
 				autoDrawBackground="false"
 				dataChange="onDataChange()"
 				>

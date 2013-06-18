@@ -31,6 +31,7 @@ package ru.kutu.grindplayer.views.components {
 		
 		public function ScrubBar() {
 			super();
+			mouseEnabled = false;
 			addEventListener(FlexEvent.CHANGE_START, onSliderChangeStart);
 			addEventListener(FlexEvent.CHANGE_END, onSliderChangeEnd);
 			addEventListener(Event.CHANGE, onSliderChange);

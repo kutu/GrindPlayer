@@ -3,6 +3,7 @@
 					  xmlns:s="library://ns.adobe.com/flex/spark"
 					  bottom="0"
 					  bottom.hiddenGroup="{-height}"
+					  mouseEnabled="false"
 					  implements="ru.kutu.grind.views.api.IControlBarView, ru.kutu.grind.views.api.IFullScreenState"
 					  >
 	<fx:Script>

@@ -3,6 +3,8 @@
 					  xmlns:s="library://ns.adobe.com/flex/spark"
 					  skinClass="ru.kutu.grindplayer.views.skins.TimeInfoNormalSkin"
 					  skinClass.live="ru.kutu.grindplayer.views.skins.TimeInfoLiveSkin"
+					  mouseEnabled="false"
+					  mouseChildren="false"
 					  implements="ru.kutu.grind.views.api.ITimeInfo"
 					  >
 	

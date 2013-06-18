@@ -32,6 +32,7 @@ package ru.kutu.grindplayer.views.components {
 		
 		public function ControlBarMenuButton() {
 			super();
+			mouseEnabled = false;
 			dropDownController = new DropDownController();
 			dropDownController.rollOverOpenDelay = 0;
 			dropDownController.addEventListener(DropDownEvent.OPEN, onDropDownOpen);
