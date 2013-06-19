@@ -1,20 +1,13 @@
 package ru.kutu.grindplayer.views.mediators {
 	
-	import flash.events.TimerEvent;
-	
-	import org.osmf.events.BufferEvent;
 	import org.osmf.events.MetadataEvent;
 	import org.osmf.media.MediaElement;
 	
-	import ru.kutu.grind.views.mediators.BufferInfoBaseMediator;
+	import ru.kutu.grind.views.mediators.AutoHideBaseMediator;
 	
-	public class BufferInfoMediator extends BufferInfoBaseMediator {
+	public class AutoHideMediator extends AutoHideBaseMediator {
 		
 		private var isAdvertisement:Boolean;
-		
-		public function BufferInfoMediator() {
-			super();
-		}
 		
 		override protected function processMediaElementChange(oldMediaElement:MediaElement):void {
 			super.processMediaElementChange(oldMediaElement);
@@ -30,14 +23,23 @@ package ru.kutu.grindplayer.views.mediators {
 			}
 		}
 		
-		override protected function onBufferChangeTimer(event:TimerEvent):void {
-			if (isAdvertisement) return;
-			super.onBufferChangeTimer(event);
-		}
-		
-		override protected function onBufferingChange(event:BufferEvent):void {
-			if (isAdvertisement) return;
-			super.onBufferingChange(event);
+		override protected function checkVisibility():void {
+			visible =
+				isReady
+				&&
+				(
+					(!isPlaying && !isAdvertisement)
+					||
+					hasWaitTarget
+					||
+					(!isFullScreen && !isMouseLeave && !isAutoHideComplete)
+					||
+					(isFullScreen && isMouseMove && !isAutoHideComplete)
+				);
+			
+			if (_visible) {
+				resetAutoHideTimer();
+			}
 		}
 		
 		private function onMetadataChange(event:MetadataEvent):void {
@@ -52,9 +54,7 @@ package ru.kutu.grindplayer.views.mediators {
 					}
 				}
 			}
-			if (isAdvertisement) {
-				view.data = null;
-			}
+			checkVisibility();
 		}
 		
 	}

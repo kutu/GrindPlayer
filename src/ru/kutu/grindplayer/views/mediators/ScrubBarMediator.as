@@ -13,14 +13,14 @@ package ru.kutu.grindplayer.views.mediators {
 		override protected function processMediaElementChange(oldMediaElement:MediaElement):void {
 			super.processMediaElementChange(oldMediaElement);
 			if (oldMediaElement) {
-				oldMediaElement.metadata.removeEventListener(MetadataEvent.VALUE_ADD, onMediaMetadataChange);
-				oldMediaElement.metadata.removeEventListener(MetadataEvent.VALUE_CHANGE, onMediaMetadataChange);
-				oldMediaElement.metadata.removeEventListener(MetadataEvent.VALUE_REMOVE, onMediaMetadataChange);
+				oldMediaElement.metadata.removeEventListener(MetadataEvent.VALUE_ADD, onMetadataChange);
+				oldMediaElement.metadata.removeEventListener(MetadataEvent.VALUE_CHANGE, onMetadataChange);
+				oldMediaElement.metadata.removeEventListener(MetadataEvent.VALUE_REMOVE, onMetadataChange);
 			}
 			if (media) {
-				media.metadata.addEventListener(MetadataEvent.VALUE_ADD, onMediaMetadataChange);
-				media.metadata.addEventListener(MetadataEvent.VALUE_CHANGE, onMediaMetadataChange);
-				media.metadata.addEventListener(MetadataEvent.VALUE_REMOVE, onMediaMetadataChange);
+				media.metadata.addEventListener(MetadataEvent.VALUE_ADD, onMetadataChange);
+				media.metadata.addEventListener(MetadataEvent.VALUE_CHANGE, onMetadataChange);
+				media.metadata.addEventListener(MetadataEvent.VALUE_REMOVE, onMetadataChange);
 			}
 		}
 		
@@ -29,7 +29,7 @@ package ru.kutu.grindplayer.views.mediators {
 			view.visible = streamType != StreamType.LIVE && !hideScrubBarWhileAdvertisement;
 		}
 		
-		private function onMediaMetadataChange(event:MetadataEvent):void {
+		private function onMetadataChange(event:MetadataEvent):void {
 			if (event.key != "Advertisement") return;
 			hideScrubBarWhileAdvertisement = false;
 			if (event.value && event.value is Array) {

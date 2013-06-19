@@ -35,7 +35,6 @@ package ru.kutu.grindplayer.config  {
 	import ru.kutu.grind.views.api.ITimeInfo;
 	import ru.kutu.grind.views.api.IVolumeComponent;
 	import ru.kutu.grind.views.mediators.AlternateMenuBaseMediator;
-	import ru.kutu.grind.views.mediators.AutoHideBaseMediator;
 	import ru.kutu.grind.views.mediators.ControlBarBaseMediator;
 	import ru.kutu.grind.views.mediators.ControlBarMenuHideBaseMediator;
 	import ru.kutu.grind.views.mediators.FullScreenStateMediator;
@@ -48,6 +47,7 @@ package ru.kutu.grindplayer.config  {
 	import ru.kutu.grind.views.mediators.VolumeComponentBaseMediator;
 	import ru.kutu.grindplayer.media.GrindMediaPlayer;
 	import ru.kutu.grindplayer.views.components.Subtitles;
+	import ru.kutu.grindplayer.views.mediators.AutoHideMediator;
 	import ru.kutu.grindplayer.views.mediators.BufferInfoMediator;
 	import ru.kutu.grindplayer.views.mediators.PlayerViewMediator;
 	import ru.kutu.grindplayer.views.mediators.ScrubBarMediator;
@@ -78,7 +78,7 @@ package ru.kutu.grindplayer.config  {
 			mediatorMap.map(IMainView).toMediator(MainViewBaseMediator);
 			
 			mediatorMap.map(IPlayerView).toMediator(PlayerViewMediator);
-			mediatorMap.map(IPlayerView).toMediator(AutoHideBaseMediator);
+			mediatorMap.map(IPlayerView).toMediator(AutoHideMediator);
 			mediatorMap.map(IPlayerView).toMediator(ShortcutsMediator);
 			
 			mediatorMap.map(Subtitles).toMediator(SubtitlesMediator);
