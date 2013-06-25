@@ -87,6 +87,9 @@ package ru.kutu.grindplayer.views.components.renderers {
 				} else {
 					g.beginFill(BAR_COLOR);
 				}
+				if (h < 1.0) {
+					h = 1.0;
+				}
 				g.drawRect(i * (_barWidth + _barGap), height, _barWidth, -Math.round(h));
 			}
 			

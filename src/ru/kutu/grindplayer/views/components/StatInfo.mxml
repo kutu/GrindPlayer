@@ -68,8 +68,13 @@
 					// dropped frames
 					if (nsInfo) {
 						if (prevDroppedFrames != -1) {
+							var droppedFramesDiff:int = nsInfo.droppedFrames - prevDroppedFrames;
+							// only positive value
+							if (droppedFramesDiff < 0) {
+								droppedFramesDiff = nsInfo.droppedFrames > 0 ? nsInfo.droppedFrames : 0;
+							}
 							droppedFrames.text = Math.round(nsInfo.droppedFrames).toString();
-							droppedFramesChart.addValue(nsInfo.droppedFrames - prevDroppedFrames);
+							droppedFramesChart.addValue(droppedFramesDiff);
 						}
 						prevDroppedFrames = nsInfo.droppedFrames;
 					}
