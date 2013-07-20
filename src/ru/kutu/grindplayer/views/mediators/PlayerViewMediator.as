@@ -14,6 +14,7 @@ package ru.kutu.grindplayer.views.mediators {
 	
 	import ru.kutu.grind.views.mediators.PlayerViewBaseMediator;
 	import ru.kutu.grindplayer.config.GrindPlayerConfiguration;
+	import ru.kutu.grindplayer.events.PlayerVideoZoomEvent;
 	import ru.kutu.osmf.advertisement.AdvertisementPluginInfo;
 	import ru.kutu.osmf.subtitles.SubtitlesPluginInfo;
 	
@@ -22,6 +23,8 @@ package ru.kutu.grindplayer.views.mediators {
 	}
 	
 	public class PlayerViewMediator extends PlayerViewBaseMediator {
+		
+		private var _zoom:int;
 		
 		override protected function processConfiguration(flashvars:Object):void {
 			CONFIG::DEV {
@@ -67,6 +70,47 @@ package ru.kutu.grindplayer.views.mediators {
 			pluginConfigurations.push(new PluginInfoResource(new AdvertisementPluginInfo()));
 			CONFIG::HLS {
 				pluginConfigurations.push(new PluginInfoResource(new OSMFHLSPluginInfo(contextView.view.loaderInfo)));
+			}
+		}
+		
+		override protected function initializeView():void {
+			super.initializeView();
+			
+			addContextListener(PlayerVideoZoomEvent.ZOOM_IN, onZoom, PlayerVideoZoomEvent);
+			addContextListener(PlayerVideoZoomEvent.ZOOM_OUT, onZoom, PlayerVideoZoomEvent);
+			addContextListener(PlayerVideoZoomEvent.ZOOM_RESET, onZoom, PlayerVideoZoomEvent);
+		}
+		
+		override protected function onViewResize(event:Event = null):void {
+			if (mediaContainer) {
+				const w:Number = view.mediaPlayerContainer.width;
+				const h:Number = view.mediaPlayerContainer.height;
+				videoContainer.width = w * (100 + _zoom) / 100;
+				videoContainer.height = h * (100 + _zoom) / 100;
+				videoContainer.validateNow();
+				videoContainer.x = (w - videoContainer.width) / 2;
+				videoContainer.y = (h - videoContainer.height) / 2;
+				mediaContainer.width = w;
+				mediaContainer.height = h;
+				hitArea.graphics.clear();
+				hitArea.graphics.beginFill(0);
+				hitArea.graphics.drawRect(0, 0, w, h);
+			}
+		}
+		
+		private function get zoom():int { return _zoom }
+		private function set zoom(value:int):void {
+			if (value < -90) value = -90;
+			if (value == _zoom) return;
+			_zoom = value;
+			onViewResize();
+		}
+		
+		private function onZoom(event:PlayerVideoZoomEvent):void {
+			switch (event.type) {
+				case PlayerVideoZoomEvent.ZOOM_IN:    zoom++;   break;
+				case PlayerVideoZoomEvent.ZOOM_OUT:   zoom--;   break;
+				case PlayerVideoZoomEvent.ZOOM_RESET: zoom = 0; break;
 			}
 		}
 		
