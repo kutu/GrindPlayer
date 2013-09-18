@@ -32,19 +32,9 @@
 			mouseEnabled="false"
 			>
 			
-			<s:VGroup
-				left="0" right="0"
-				top="0" bottom="0"
-				mouseEnabled="false"
-				gap="0"
-				>
-				
-				<components:ControlBarMenuList
-					id="list"
-					left="0" right="0"
-					/>
-				
-			</s:VGroup>
+			<components:ControlBarMenuList
+				id="list"
+				/>
 			
 			<!-- for dont react on scrub bar thumb -->
 			<s:Rect

@@ -5,7 +5,6 @@ package ru.kutu.grindplayer.views.components {
 	import mx.resources.ResourceManager;
 	
 	import ru.kutu.grind.views.api.IQualityMenuButton;
-	import ru.kutu.grind.vos.QualitySelectorVO;
 	import ru.kutu.grind.vos.SelectorVO;
 	
 	public class QualityMenuButton extends ControlBarMenuButton implements IQualityMenuButton {
