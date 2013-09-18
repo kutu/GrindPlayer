@@ -12,9 +12,14 @@ package ru.kutu.grindplayer.views.components {
 		private var updatePending:Boolean;
 		private var lastWidth:Number;
 		
+		private var fontSize:Number;
+		private var minFontSize:int;
+		private var maxFontSize:int;
+		
 		public function Subtitles() {
 			super();
 			mouseEnabled = mouseChildren = false;
+			setConfig({});
 			label = new SubtitlesText();
 			addChild(label);
 		}
@@ -22,6 +27,15 @@ package ru.kutu.grindplayer.views.components {
 		public function update():void {
 			lastWidth = NaN;
 			processUpdate();
+		}
+		
+		public function setConfig(config:Object):void {
+			fontSize = config.fontSize || 0.035;
+			minFontSize = config.minFontSize || 14;
+			maxFontSize = config.maxFontSize || 36;
+			if ("textColor" in config) label.textColor = config.textColor;
+			if ("bgColor" in config) label.bgColor = config.bgColor;
+			if ("bgAlpha" in config) label.bgAlpha = config.bgAlpha;
 		}
 		
 		override public function setLayoutBoundsSize(width:Number, height:Number, postLayoutTransform:Boolean=true):void {
@@ -45,7 +59,7 @@ package ru.kutu.grindplayer.views.components {
 			if (lastWidth == width) return;
 			lastWidth = width;
 			
-			label.fontSize = Math.max(14, width / 50 | 0);
+			label.fontSize = Math.min(maxFontSize, Math.max(minFontSize, width * fontSize | 0));
 			label.width = width;
 			label.update();
 			var rect:Rectangle = label.getBounds(this);

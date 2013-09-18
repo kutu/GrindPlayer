@@ -19,9 +19,13 @@ package ru.kutu.grindplayer.views.components {
 		private const textFormat:TextLayoutFormat = new TextLayoutFormat();
 		private const compositionBounds:Rectangle = new Rectangle(0, 0, 0, 1000);
 		
+		public var bgColor:uint = 0x101010;
+		public var bgAlpha:Number = 0.8;
+		
 		private var backgroundPadding:Number;
 		private var minY:Number;
 		private var isDirty:Boolean = true;
+		
 		private var _text:String;
 		
 		public function SubtitlesText() {
@@ -31,6 +35,13 @@ package ru.kutu.grindplayer.views.components {
 			textFormat.textAlign = TextAlign.CENTER;
 			textFormat.lineHeight = "150%";
 			textFormat.firstBaselineOffset = BaselineOffset.LINE_HEIGHT;
+		}
+		
+		public function set textColor(value:uint):void {
+			if (value == textFormat.color) return;
+			textFormat.color = value;
+			factory.textFlowFormat = textFormat;
+			isDirty = true;
 		}
 		
 		public function set fontSize(value:Number):void {
@@ -88,7 +99,7 @@ package ru.kutu.grindplayer.views.components {
 			rect.width = Math.ceil(r.width + 2 * p + 1);
 			rect.height = Math.ceil(r.height + 2 * p - (rect.y - (r.y - p | 0)));
 			
-			g.beginFill(0x101010, .8);
+			g.beginFill(bgColor, bgAlpha);
 			g.drawRect(rect.x, rect.y, rect.width, rect.height);
 			
 			minY = rect.y + rect.height;

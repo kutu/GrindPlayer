@@ -1,5 +1,7 @@
 package ru.kutu.grindplayer.views.mediators {
 	
+	import by.blooddy.crypto.serialization.JSON;
+	
 	import org.osmf.events.MediaElementEvent;
 	import org.osmf.events.PlayEvent;
 	import org.osmf.events.SeekEvent;
@@ -16,6 +18,7 @@ package ru.kutu.grindplayer.views.mediators {
 	import ru.kutu.grindplayer.views.components.Subtitles;
 	import ru.kutu.osmf.subtitles.SubtitlesEvent;
 	import ru.kutu.osmf.subtitles.SubtitlesMarker;
+	import ru.kutu.osmf.subtitles.SubtitlesPluginInfo;
 	import ru.kutu.osmf.subtitles.SubtitlesTrait;
 	
 	public class SubtitlesMediator extends MediaControlBaseMediator {
@@ -58,6 +61,19 @@ package ru.kutu.grindplayer.views.mediators {
 				view.visible = false;
 			}
 			if (media) {
+				// config
+				var subtitlesSource:String = media.resource.getMetadataValue(SubtitlesPluginInfo.NAMESPACE) as String;
+				var subtitles:Object;
+				if (subtitlesSource && subtitlesSource.length) {
+					try {
+						subtitles = JSON.decode(subtitlesSource);
+						if ("config" in subtitles) {
+							view.setConfig(subtitles.config);
+						}
+					} catch(error:Error) {
+						view.setConfig({});
+					}
+				}
 				media.addEventListener(MediaElementEvent.TRAIT_ADD, onTraitAdd);
 				media.addEventListener(MediaElementEvent.TRAIT_REMOVE, onTraitRemove);
 			}
