@@ -3,7 +3,7 @@ package ru.kutu.grindplayer.views.components {
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	
-	import mx.collections.ArrayCollection;
+	import org.apache.flex.collections.VectorCollection;
 	
 	import ru.kutu.grind.events.ControlBarMenuChangeEvent;
 	import ru.kutu.grind.events.ControlBarMenuEvent;
@@ -49,11 +49,12 @@ package ru.kutu.grindplayer.views.components {
 		}
 		
 		public function setSelectors(list:Vector.<SelectorVO>):void {
-			var col:ArrayCollection = new ArrayCollection();
-			for each (var vo:SelectorVO in list) {
-				col.addItem(vo);
+			if (this.list.dataProvider) {
+				var vc:VectorCollection = this.list.dataProvider as VectorCollection;
+				vc.source = list;
+			} else {
+				this.list.dataProvider = new VectorCollection(list);
 			}
-			this.list.dataProvider = col;
 		}
 		
 		public function getSelectorVOByIndex(index:int = -1):SelectorVO {
