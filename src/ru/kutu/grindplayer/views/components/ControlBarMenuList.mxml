@@ -8,6 +8,7 @@
 		contentBackgroundColor="{getStyle('menuBackgroundColor')}"
 		contentBackgroundAlpha="{getStyle('menuBackgroundAlpha')}"
 		itemRenderer="ru.kutu.grindplayer.views.components.renderers.ControlBarMenuItemRenderer"
+		addedToStage="validateNow()"
 		>
 	
 	<s:layout>
