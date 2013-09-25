@@ -8,5 +8,6 @@
 	-target-player=10.2 ^
 	-sp "%subtitles_plugin%\src" ^
 	-is "%subtitles_plugin%\src" ^
-	-external-library-path+=libs ^
+	-l libs\blooddy_crypto.swc ^
+	-external-library-path+=libs\OSMF.swc ^
 	-define CONFIG::LOGGING %logging%
