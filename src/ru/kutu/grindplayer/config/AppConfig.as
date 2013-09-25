@@ -19,6 +19,7 @@ package ru.kutu.grindplayer.config  {
 	import ru.kutu.grind.config.PlayerConfiguration;
 	import ru.kutu.grind.config.ResourceProvider;
 	import ru.kutu.grind.media.GrindMediaFactoryBase;
+	import ru.kutu.grind.utils.Thumbnails;
 	import ru.kutu.grind.views.api.IAlternateMenuButton;
 	import ru.kutu.grind.views.api.IBufferInfo;
 	import ru.kutu.grind.views.api.IControlBarMenuButtonHide;
@@ -74,6 +75,7 @@ package ru.kutu.grindplayer.config  {
 			
 			injector.map(LocalSettings).asSingleton();
 			injector.map(JavaScriptBridgeBase).toSingleton(JavaScriptBridge);
+			injector.map(Thumbnails).asSingleton();
 			
 			mediatorMap.map(IMainView).toMediator(MainViewBaseMediator);
 			
