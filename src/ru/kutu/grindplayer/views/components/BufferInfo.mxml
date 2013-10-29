@@ -43,8 +43,12 @@
 					return;
 				}
 				
+				if (isNaN(_bufferTime)) {
+					_bufferTime = 0.1;
+				}
+				
 				var newBufferLength:Number = Number(data);
-				if (isNaN(newBufferLength) || isNaN(_bufferTime) || newBufferLength == bufferLength) return;
+				if (isNaN(newBufferLength) || newBufferLength == bufferLength) return;
 				bufferLength = newBufferLength;
 				
 				var percent:Number = bufferLength / _bufferTime;

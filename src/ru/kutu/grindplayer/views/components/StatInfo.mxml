@@ -87,7 +87,7 @@
 					// download speed
 					if (netStream.bytesLoaded < netStream.bytesTotal) {
 						// progressive download
-						if (prevBytesLoaded > 0) {
+						if (prevBytesLoaded > 0 && netStream.bytesLoaded >= prevBytesLoaded) {
 							mbps = (netStream.bytesLoaded - prevBytesLoaded) / ((getTimer() - prevBytesLoadedTimestamp) * .001);
 						}
 						prevBytesLoaded = netStream.bytesLoaded;
