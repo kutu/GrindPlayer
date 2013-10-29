@@ -60,7 +60,7 @@ $(GRIND_FRAMEWORK): GrindFramework
 	-target-player=$(TARGET_PLAYER) \
 	-sp "GrindFramework/src" \
 	-is "GrindFramework/src" \
-	-external-library-path+=libs \
+	-external-library-path+="$(FLEX_SDK)/frameworks/libs",libs \
 	-define CONFIG::LOGGING $(LOGGING) \
 	-define CONFIG::FLASH_10_1 true
 
@@ -75,7 +75,7 @@ $(ADVERTISEMENT_PLUGIN): AdvertisementPlugin
 	-target-player=$(TARGET_PLAYER) \
 	-sp "AdvertisementPlugin/src" \
 	-is "AdvertisementPlugin/src" \
-	-external-library-path+=libs \
+	-external-library-path+="$(FLEX_SDK)/frameworks/libs" \
 	-define CONFIG::LOGGING $(LOGGING)
 
 SubtitlesPlugin:
@@ -88,6 +88,6 @@ $(SUBTITLES_PLUGIN): SubtitlesPlugin
 	-target-player=$(TARGET_PLAYER) \
 	-sp "SubtitlesPlugin/src" \
 	-is "SubtitlesPlugin/src" \
-	-external-library-path+=libs \
+	-external-library-path+="$(FLEX_SDK)/frameworks/libs",libs \
 	-define CONFIG::LOGGING $(LOGGING)
 

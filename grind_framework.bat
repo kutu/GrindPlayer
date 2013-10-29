@@ -8,6 +8,6 @@
 	-target-player=10.2 ^
 	-sp "%grind_framework%\src" ^
 	-is "%grind_framework%\src" ^
-	-external-library-path+=libs ^
+	-external-library-path+="%flex_sdk%\frameworks\libs",libs ^
 	-define CONFIG::LOGGING %logging% ^
 	-define CONFIG::FLASH_10_1 true

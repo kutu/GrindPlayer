@@ -8,5 +8,5 @@
 	-target-player=10.2 ^
 	-sp "%advertisement_plugin%\src" ^
 	-is "%advertisement_plugin%\src" ^
-	-external-library-path+=libs ^
+	-external-library-path+="%flex_sdk%\frameworks\libs" ^
 	-define CONFIG::LOGGING %logging%

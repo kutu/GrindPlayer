@@ -8,6 +8,5 @@
 	-target-player=10.2 ^
 	-sp "%subtitles_plugin%\src" ^
 	-is "%subtitles_plugin%\src" ^
-	-l libs\blooddy_crypto.swc ^
-	-external-library-path+=libs\OSMF.swc ^
+	-external-library-path+="%flex_sdk%\frameworks\libs",libs ^
 	-define CONFIG::LOGGING %logging%
