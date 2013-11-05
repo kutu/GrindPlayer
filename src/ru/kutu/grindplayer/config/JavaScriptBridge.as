@@ -7,6 +7,7 @@ package ru.kutu.grindplayer.config {
 	
 	import ru.kutu.grind.config.JavaScriptBridgeBase;
 	import ru.kutu.grind.events.MediaElementChangeEvent;
+	import ru.kutu.grindplayer.events.AdvertisementEvent;
 	import ru.kutu.osmf.subtitles.SubtitlesEvent;
 	
 	public class JavaScriptBridge extends JavaScriptBridgeBase {
@@ -15,18 +16,10 @@ package ru.kutu.grindplayer.config {
 			declaredByWhiteList.push("ru.kutu.grindplayer.media::GrindMediaPlayer");
 		}
 		
-		override protected function onMediaElementChanged(event:MediaElementChangeEvent):void {
-			if (media) {
-				media.metadata.removeEventListener(MetadataEvent.VALUE_ADD, onMediaMetadataChange);
-				media.metadata.removeEventListener(MetadataEvent.VALUE_CHANGE, onMediaMetadataChange);
-				media.metadata.removeEventListener(MetadataEvent.VALUE_REMOVE, onMediaMetadataChange);
-			}
-			super.onMediaElementChanged(event);
-			if (media) {
-				media.metadata.addEventListener(MetadataEvent.VALUE_ADD, onMediaMetadataChange);
-				media.metadata.addEventListener(MetadataEvent.VALUE_CHANGE, onMediaMetadataChange);
-				media.metadata.addEventListener(MetadataEvent.VALUE_REMOVE, onMediaMetadataChange);
-			}
+		[PostConstruct]
+		override public function init():void {
+			super.init();
+			eventMap.mapListener(eventDispatcher, AdvertisementEvent.ADVERTISEMENT, onAdvertisement, AdvertisementEvent);
 		}
 		
 		override protected function initializeEventMap():void {
@@ -36,16 +29,14 @@ package ru.kutu.grindplayer.config {
 			eventMaps[SubtitlesEvent.HAS_SUBTITLES_CHANGE]			= function(event:MediaPlayerCapabilityChangeEvent):Array{return [event.enabled];};
 		}
 		
-		private function onMediaMetadataChange(event:MetadataEvent):void {
-			if (event.key == "Advertisement") {
-				var ids:Array = [];
-				if (event.value && event.value is Array) {
-					for each (var item:Object in event.value) {
-						ids.push(item.id);
-					}
+		private function onAdvertisement(event:AdvertisementEvent):void {
+			var ids:Array = [];
+			if (event.ads && event.ads is Array) {
+				for each (var item:Object in event.ads) {
+					ids.push(item.id);
 				}
-				call([javascriptCallbackFunction, ExternalInterface.objectID, "advertisement", ids]);
 			}
+			call([javascriptCallbackFunction, ExternalInterface.objectID, "advertisement", ids]);
 		}
 		
 	}

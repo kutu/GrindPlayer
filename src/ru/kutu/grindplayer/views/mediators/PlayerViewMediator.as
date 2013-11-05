@@ -26,6 +26,11 @@ package ru.kutu.grindplayer.views.mediators {
 		
 		private var _zoom:int;
 		
+		override public function initialize():void {
+			super.initialize();
+			addContextListener(AdvertisementEvent.ADVERTISEMENT, onAdvertisement, AdvertisementEvent);
+		}
+		
 		override protected function processConfiguration(flashvars:Object):void {
 			CONFIG::DEV {
 				flashvars.src = "";
@@ -118,6 +123,26 @@ package ru.kutu.grindplayer.views.mediators {
 			view.controlBarAutoHide = contextView.view.stage.displayState == StageDisplayState.NORMAL
 				? configuration.controlBarAutoHide
 				: configuration.controlBarFullScreenAutoHide;
+		}
+		
+		private function onAdvertisement(event:AdvertisementEvent):void {
+			// check at least one ad has layoutInfo and isAdvertisement
+			var isAdvertisement:Boolean;
+			if (event.ads && event.ads is Array) {
+				for each (var item:Object in event.ads) {
+					if ("layoutInfo" in item && !item.layoutInfo && "isAdvertisement" in item && item.isAdvertisement) {
+						isAdvertisement = true;
+						break;
+					}
+				}
+			}
+			
+			// remove main media from videoContainer if ad is linear
+			if (isAdvertisement && videoContainer.containsMediaElement(player.media)) {
+				videoContainer.removeMediaElement(player.media);
+			} else if (!isAdvertisement && !videoContainer.containsMediaElement(player.media)) {
+				videoContainer.addMediaElement(player.media);
+			}
 		}
 		
 	}

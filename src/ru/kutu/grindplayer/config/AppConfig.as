@@ -48,6 +48,7 @@ package ru.kutu.grindplayer.config  {
 	import ru.kutu.grind.views.mediators.VolumeComponentBaseMediator;
 	import ru.kutu.grindplayer.media.GrindMediaPlayer;
 	import ru.kutu.grindplayer.views.components.Subtitles;
+	import ru.kutu.grindplayer.views.mediators.AdvertisementMediator;
 	import ru.kutu.grindplayer.views.mediators.AutoHideMediator;
 	import ru.kutu.grindplayer.views.mediators.BufferInfoMediator;
 	import ru.kutu.grindplayer.views.mediators.PlayerViewMediator;
@@ -82,6 +83,7 @@ package ru.kutu.grindplayer.config  {
 			mediatorMap.map(IPlayerView).toMediator(PlayerViewMediator);
 			mediatorMap.map(IPlayerView).toMediator(AutoHideMediator);
 			mediatorMap.map(IPlayerView).toMediator(ShortcutsMediator);
+			mediatorMap.map(IPlayerView).toMediator(AdvertisementMediator);
 			
 			mediatorMap.map(Subtitles).toMediator(SubtitlesMediator);
 			mediatorMap.map(IControlBarView).toMediator(ControlBarBaseMediator);

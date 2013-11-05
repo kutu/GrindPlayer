@@ -1,27 +1,17 @@
 package ru.kutu.grindplayer.views.mediators {
 	
-	import org.osmf.events.MetadataEvent;
-	import org.osmf.media.MediaElement;
 	import org.osmf.net.StreamType;
 	
 	import ru.kutu.grind.views.mediators.ScrubBarBaseMediator;
+	import ru.kutu.grindplayer.events.AdvertisementEvent;
 	
 	public class ScrubBarMediator extends ScrubBarBaseMediator {
 		
 		private var hideScrubBarWhileAdvertisement:Boolean;
 		
-		override protected function processMediaElementChange(oldMediaElement:MediaElement):void {
-			super.processMediaElementChange(oldMediaElement);
-			if (oldMediaElement) {
-				oldMediaElement.metadata.removeEventListener(MetadataEvent.VALUE_ADD, onMetadataChange);
-				oldMediaElement.metadata.removeEventListener(MetadataEvent.VALUE_CHANGE, onMetadataChange);
-				oldMediaElement.metadata.removeEventListener(MetadataEvent.VALUE_REMOVE, onMetadataChange);
-			}
-			if (media) {
-				media.metadata.addEventListener(MetadataEvent.VALUE_ADD, onMetadataChange);
-				media.metadata.addEventListener(MetadataEvent.VALUE_CHANGE, onMetadataChange);
-				media.metadata.addEventListener(MetadataEvent.VALUE_REMOVE, onMetadataChange);
-			}
+		override public function initialize():void {
+			super.initialize();
+			addContextListener(AdvertisementEvent.ADVERTISEMENT, onAdvertisement, AdvertisementEvent);
 		}
 		
 		override protected function updateEnabled():void {
@@ -29,11 +19,10 @@ package ru.kutu.grindplayer.views.mediators {
 			view.visible = streamType != StreamType.LIVE && !hideScrubBarWhileAdvertisement;
 		}
 		
-		private function onMetadataChange(event:MetadataEvent):void {
-			if (event.key != "Advertisement") return;
+		private function onAdvertisement(event:AdvertisementEvent):void {
 			hideScrubBarWhileAdvertisement = false;
-			if (event.value && event.value is Array) {
-				for each (var item:Object in event.value) {
+			if (event.ads && event.ads is Array) {
+				for each (var item:Object in event.ads) {
 					if ("hideScrubBarWhilePlayingAd" in item && item.hideScrubBarWhilePlayingAd) {
 						hideScrubBarWhileAdvertisement = true;
 						break;
