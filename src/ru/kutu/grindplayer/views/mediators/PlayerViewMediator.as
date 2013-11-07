@@ -14,6 +14,7 @@ package ru.kutu.grindplayer.views.mediators {
 	
 	import ru.kutu.grind.views.mediators.PlayerViewBaseMediator;
 	import ru.kutu.grindplayer.config.GrindPlayerConfiguration;
+	import ru.kutu.grindplayer.events.AdvertisementEvent;
 	import ru.kutu.grindplayer.events.PlayerVideoZoomEvent;
 	import ru.kutu.osmf.advertisement.AdvertisementPluginInfo;
 	import ru.kutu.osmf.subtitles.SubtitlesPluginInfo;
