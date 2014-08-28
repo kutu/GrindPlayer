@@ -7,7 +7,7 @@
 
 global {
 	/* main theme color */
-	tintColor: #CC181E;
+	tintColor: rgb(49, 162, 227);
 
 	/* control bar */
 	controlBarBackgroundColor: #1F1F1F;

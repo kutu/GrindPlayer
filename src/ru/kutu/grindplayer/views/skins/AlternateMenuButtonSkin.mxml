@@ -14,7 +14,8 @@
 		<s:State name="down" />
 		<s:State name="disabled" />
 	</s:states>
-	
+
+    <!--
 	<helpers:ColorizedBitmapImage
 		horizontalCenter="0"
 		verticalCenter="0"
@@ -22,7 +23,8 @@
 		color="{getStyle('controlBarIconColor')}"
 		color.down="{getStyle('controlBarIconColorOver')}"
 		/>
-	
+
 	<helpers:HitArea />
+	-->
 	
 </s:Skin>
