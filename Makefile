@@ -50,7 +50,7 @@ $(GRIND_PLAYER): $(BUILD_DIR) $(GRIND_FRAMEWORK) $(ADVERTISEMENT_PLUGIN) $(SUBTI
 
 
 GrindFramework:
-	git clone git://github.com/kutu/GrindFramework --depth 1
+	git clone git://github.com/geeee/GrindFramework --depth 1
 
 
 $(GRIND_FRAMEWORK): GrindFramework

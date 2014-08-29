@@ -7,11 +7,11 @@
 
 global {
 	/* main theme color */
-	tintColor: #CC181E;
+	tintColor: #E9212D;
 
 	/* control bar */
 	controlBarBackgroundColor: #1F1F1F;
-	controlBarBackgroundAlpha: 0.9;
+	controlBarBackgroundAlpha: 0.6;
 
 	/* control bar buttons */
 	controlBarIconColor: #757575;
@@ -19,13 +19,13 @@ global {
 
 	/* scrub bar */
 	scurbBarThumbColor: #EAEAEA;
-	scurbBarThumbColor2: #AEAEAE;
-	emptyBarColor: #444444;
-	loadedBarColor: #777777;
+	scurbBarThumbColor2: #E9212D;
+	emptyBarColor: #000000;
+	loadedBarColor: #444444;
 
 	/* scrub bar tip */
 	scrubBarTipBackgroundColor: #1F1F1F;
-	scrubBarTipBackgroundAlpha: 0.9;
+	scrubBarTipBackgroundAlpha: 1;
 	scrubBarTipTextColor: #E3E3E3;
 	scrubBarTipContentPadding: 2;
 

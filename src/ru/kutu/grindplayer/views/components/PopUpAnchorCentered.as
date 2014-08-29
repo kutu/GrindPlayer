@@ -16,7 +16,7 @@ package ru.kutu.grindplayer.views.components {
 			super();
 		}
 		
-		mx_internal override function determinePosition(placement:String, popUpWidth:Number, popUpHeight:Number, matrix:Matrix, registrationPoint:Point, bounds:Rectangle):void {
+		mx_internal function determinePosition(placement:String, popUpWidth:Number, popUpHeight:Number, matrix:Matrix, registrationPoint:Point, bounds:Rectangle):void {
 			registrationPoint.x = (unscaledWidth - popUpWidth) / 2;
 			registrationPoint.y = -popUpHeight;
 			super.determinePosition("", popUpWidth, popUpHeight, matrix, registrationPoint, bounds);

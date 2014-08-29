@@ -92,12 +92,12 @@
 		<!-- played bar -->
 		<s:Rect
 			id="playedBar"
-			width="{thumb.x + (thumb.width * thumb.scaleX) / 2}"
+			width="{thumb.x}"
 			top="0" bottom="0"
 			>
 			<s:fill>
 				<s:SolidColor
-					color="{getStyle('tintColor')}"
+					color="{getStyle('tintColor')}" alpha="0.95"
 					/>
 			</s:fill>
 		</s:Rect>
