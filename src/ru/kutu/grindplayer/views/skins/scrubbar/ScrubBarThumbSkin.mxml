@@ -43,6 +43,7 @@
 		horizontalCenter="0"
 		scaleX.minimized="0"
 		scaleY.minimized="0"
+		visible="false"
 		>
 		<s:Ellipse width="16" height="16">
 			<s:fill>

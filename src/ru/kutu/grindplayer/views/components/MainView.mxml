@@ -9,6 +9,10 @@
 	<fx:Script>
 		<![CDATA[
 			
+			[Embed(source="/../assets/logo.swf", symbol="logo")]
+			[Bindable]
+			public var logo:Class;
+			
 			public function set errorText(value:String):void {
 				errorDisplay.text = value;
 			}
@@ -34,6 +38,8 @@
 		<s:State name="ready" />
 		<s:State name="error" />
 	</s:states>
+	
+	<s:SWFLoader source="{logo}" right="10" top="10" alpha="0.7" width="80" height="62" />
 	
 	<s:Label
 		mouseEnabled="false"
