@@ -2,7 +2,7 @@
 <s:SkinnableComponent xmlns:fx="http://ns.adobe.com/mxml/2009" 
 					  xmlns:s="library://ns.adobe.com/flex/spark"
 					  bottom="0"
-					  bottom.hiddenGroup="{-height}"
+					  bottom.hiddenGroup="{-height - 1}"
 					  mouseEnabled="false"
 					  implements="ru.kutu.grind.views.api.IControlBarView, ru.kutu.grind.views.api.IFullScreenState"
 					  >
@@ -60,7 +60,7 @@
 					<s:SimpleMotionPath
 						property="bottom"
 						valueTo.shownGroup="0"
-						valueTo.hiddenGroup="{-height}"
+						valueTo.hiddenGroup="{-height - 1}"
 						/>
 				</s:motionPaths>
 			</s:Animate>
