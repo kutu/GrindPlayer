@@ -1,7 +1,6 @@
 package ru.kutu.grindplayer.media {
 	
 	import org.osmf.events.MediaPlayerCapabilityChangeEvent;
-	import org.osmf.media.MediaElement;
 	
 	import ru.kutu.grind.media.GrindMediaPlayerBase;
 	import ru.kutu.osmf.subtitles.SubtitlesEvent;
